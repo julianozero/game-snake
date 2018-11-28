@@ -48,19 +48,43 @@ function snake() {
 	}
 
 	this.direction = function() {
-		if (keyIsDown(UP_ARROW) && !this.down) {
+		if (keyIsDown(UP_ARROW)) {
+			this.moveUp();
+		} else if (keyIsDown(DOWN_ARROW)) {
+			this.moveDown();
+		} else if (keyIsDown(RIGHT_ARROW)) {
+			this.moveRight();
+		} else if (keyIsDown(LEFT_ARROW)) {
+			this.moveLeft();
+		}
+	}
+
+	this.moveUp = function() {
+		if (!this.down) {
 			this.up = true;
 			this.down = this.right = this.left = false;
 			this.changeSpeed(0, -this.speed);
-		} else if (keyIsDown(DOWN_ARROW) && !this.up) {
+		}
+	}
+
+	this.moveDown = function() {
+		if (!this.up) {
 			this.down = true;
 			this.up = this.right = this.left = false;
 			this.changeSpeed(0, this.speed);
-		} else if (keyIsDown(RIGHT_ARROW) && !this.left) {
+		}
+	}
+
+	this.moveRight = function() {
+		if (!this.left) {
 			this.right = true;
 			this.down = this.up = this.left = false;
 			this.changeSpeed(this.speed, 0);
-		} else if (keyIsDown(LEFT_ARROW) && !this.right) {
+		}
+	}
+
+	this.moveLeft = function() {
+		if (!this.right) {
 			this.left = true;
 			this.down = this.right = this.up = false;
 			this.changeSpeed(-this.speed, 0);

@@ -12,7 +12,7 @@ function snake() {
 	this.up = false;
 	this.down = false;
 
-	this.start = function() {
+	this.start = function(score, record) {
 		this.x = 20;
 		this.y = 20;
 		this.r = 14;
@@ -25,6 +25,8 @@ function snake() {
 		this.left = false;
 		this.up = false;
 		this.down = false;
+		this.updateRecord(score, record);
+		this.reset(score);
 	}
 
 	this.show = function() {
@@ -70,24 +72,39 @@ function snake() {
 		this.yspeed = yspeed;
 	}
 
-	this.eat = function(food) {
+	this.eat = function(food, score) {
 		var d = dist(this.x, this.y, food.x, food.y);
 		if (d <= this.r) {
 			this.grow();
 			food.eaten();
+			this.update(score);
 		}
 	}
 
-	this.end = function() {
+	this.update = function(score) {
+		score.value++;
+	}
+
+	this.reset = function(score) {
+		score.value = 0;
+	}
+
+	this.end = function(score, record) {
 		if (this.x >= width || this.x <= 0 ||
 			this.y >= height || this.y <= 0) {
-			this.start();
+			this.start(score, record);
 		}
 		for (var i = 0; i <= this.tail.length - 1; i++) {
 			var d = dist(this.x, this.y, this.tail[i].x, this.tail[i].y);
 			if (d <= 1) {
-				this.start();
+				this.start(score, record);
 			}
+		}
+	}
+
+	this.updateRecord = function(score, record) {
+		if (score.value > record.value) {
+			record.value = score.value;
 		}
 	}
 
